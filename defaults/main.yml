@@ -1,0 +1,5 @@
+---
+# defaults file for winehq
+winehq:
+  install_playonlinux: "true"
+  install_winetricks: "true"

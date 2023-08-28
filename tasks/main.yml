@@ -1,0 +1,62 @@
+---
+# tasks file for winehq
+- name: Install Block
+  tags:
+    - winehq
+  block:
+    - name: Add WineHQ GPG repository key
+      ansible.builtin.apt_key:
+        url: "https://dl.winehq.org/wine-builds/winehq.key"
+        keyring: "/etc/apt/keyrings/winehq-archive.key"
+
+    - name: Add WineHQ repository
+      become: true
+      become_user: "{{ ansible_user }}"
+      ansible.builtin.get_url:
+        url: "https://dl.winehq.org/wine-builds/{{ ansible_distribution | lower }}/dists/{{ ansible_distribution_release }}/winehq-{{ ansible_distribution_release }}.sources"
+        dest: /etc/apt/sources.list.d/winehq-{{ ansible_distribution_release }}.sources
+
+    - name: Check if i386 is enabled
+      #command because the ansible.builtin.dpkg_selections command does only support selection in Ansible.
+      ansible.builtin.command:
+        cmd: dpkg --print-foreign-architectures | grep i386
+      register: result_i386_check
+      changed_when: result_i386_check.rc == 1
+      failed_when: result_i386_check.rc < 1
+
+    - name: Enable i386 architecture
+      #command because the ansible.builtin.dpkg_selections command does only support selection in Ansible.
+      ansible.builtin.command:
+        cmd: dpkg --add-architecture i386
+      when: result_i386_check.rc == 1
+
+    - name: Install WineHQ
+      ansible.builtin.package:
+        name:
+          - winehq-stable
+        state: present
+
+    - name: Install PlayOnLinux
+      ansible.builtin.package:
+        name:
+          - playonlinux
+        state: present
+      when: wine.install_playonlinux
+
+    - name: Install Winetricks
+      ansible.builtin.get_url:
+        url: "http://winetricks.org/winetricks"
+        dest: /usr/bin/winetricks
+        owner: "root"
+        group: "root"
+        mode: '0755'
+      when: wine.install_winetricks
+
+    # as the user needs to accept licenses manually, this task is disabled
+    # - name: Install Winetricks packages
+    #   become: true
+    #   become_user: "{{ ansible_user }}"
+    #   ansible.builtin.command:
+    #     cmd: "winetricks corefonts vcrun6 dotnet20"
+    #   ignore_errors: true
+    #   when: wine.install_winetricks
