@@ -41,7 +41,7 @@
         name:
           - playonlinux
         state: present
-      when: wine.install_playonlinux
+      when: winehq.install_playonlinux
 
     - name: Install Winetricks
       ansible.builtin.get_url:
@@ -50,7 +50,7 @@
         owner: "root"
         group: "root"
         mode: '0755'
-      when: wine.install_winetricks
+      when: winehq.install_winetricks
 
     # as the user needs to accept licenses manually, this task is disabled
     # - name: Install Winetricks packages
@@ -59,4 +59,4 @@
     #   ansible.builtin.command:
     #     cmd: "winetricks corefonts vcrun6 dotnet20"
     #   ignore_errors: true
-    #   when: wine.install_winetricks
+    #   when: winehq.install_winetricks

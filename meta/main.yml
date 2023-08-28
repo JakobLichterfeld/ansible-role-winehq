@@ -1,9 +1,9 @@
 ---
 galaxy_info:
   role_name: winehq
-  version: 1.0.0
+  version: 1.0.1
   author: JakobLichterfeld
-  description: Install WineHQ via repository
+  description: Install Wine / WineHQ via repository
 
   homepage: https://github.com/JakobLichterfeld/ansible-role_winehq
   issue_tracker_url: https://github.com/JakobLichterfeld/ansible-role_winehq/issues
