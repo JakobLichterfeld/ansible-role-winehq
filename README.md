@@ -19,8 +19,8 @@ Available variables are listed below, along with default values (see `defaults/m
 
 | Name           | Default Value   | Description                        |
 | -------------- | --------------- | -----------------------------------|
-| `winehq.install_playonlinux` | "true" | Whether to install PlayOnLinux |
-| `winehq.install_winetricks` | "true" | Whether to install Winetricks |
+| `winehq.install_playonlinux` | true | Whether to install PlayOnLinux |
+| `winehq.install_winetricks` | true | Whether to install Winetricks |
 
 ## Dependencies
 
