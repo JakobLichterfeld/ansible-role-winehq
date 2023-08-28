@@ -10,7 +10,7 @@ name: Release Role to Ansible Galaxy
 
 defaults:
   run:
-    working-directory: 'jakobLichterfeld/ansible-role_winehq'
+    working-directory: 'jakobLichterfeld/ansible-role-winehq'
 
 jobs:
   release:
@@ -20,7 +20,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v3
         with:
-          path: 'jakobLichterfeld/ansible-role_winehq'
+          path: 'jakobLichterfeld/ansible-role-winehq'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v4
