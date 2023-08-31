@@ -39,8 +39,8 @@
     - name: Update apt cache
       ansible.builtin.apt:
         update_cache: true
-        cache_valid_time: 600
-      when: result_i386_check.rc != 0 and ansible_os_family == "Debian"
+        cache_valid_time: 0
+      when: add_architecture_output and ansible_os_family == "Debian"
 
     - name: Install WineHQ
       ansible.builtin.package:
