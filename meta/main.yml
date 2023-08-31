@@ -1,25 +1,26 @@
 ---
 galaxy_info:
-  role_name: winehq
-  version: 1.0.2
-  author: JakobLichterfeld
-  description: Install Wine / WineHQ via repository
+    role_name: winehq
+    namespace: jakoblichterfeld
+    standalone: true
+    author: JakobLichterfeld
+    description: Install Wine / WineHQ via repository
 
-  homepage: https://github.com/JakobLichterfeld/ansible-role-winehq
-  issue_tracker_url: https://github.com/JakobLichterfeld/ansible-role-winehq/issues
+    # homepage: https://github.com/JakobLichterfeld/ansible-role-winehq
+    issue_tracker_url: https://github.com/JakobLichterfeld/ansible-role-winehq/issues
 
-  license: MIT
-  min_ansible_version: 2.1
+    license: MIT
+    min_ansible_version: "2.1"
 
-  platforms:
-  - name: Ubuntu
-    versions:
-      - jammy
+    platforms:
+        - name: Ubuntu
+          versions:
+              - jammy
 
-  galaxy_tags:
-    - winehq
-    - wine
-    - winetricks
-    - playonlinux
+    galaxy_tags:
+        - winehq
+        - wine
+        - winetricks
+        - playonlinux
 
 dependencies: []

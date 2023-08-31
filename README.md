@@ -1,5 +1,8 @@
 # Ansible Role: WineHQ
 
+[![CI](https://github.com/JakobLichterfeld/ansible-role-winehq/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/JakobLichterfeld/ansible-role-winehq/actions/workflows/ci.yml)
+[![Publish role on Ansible Galaxy](https://github.com/JakobLichterfeld/ansible-role-winehq/actions/workflows/publish_role_on_ansible_galaxy.yml/badge.svg?branch=main)](https://github.com/JakobLichterfeld/ansible-role-winehq/actions/workflows/publish_role_on_ansible_galaxy.yml)
+
 Install WineHQ via PPA repository.
 
 - Add GPG repository key
@@ -31,7 +34,7 @@ None.
 ```yaml
 ---
 - hosts: all
-  gather_facts: yes
+  gather_facts: true
   become: true
 
   roles:

@@ -11,24 +11,36 @@
 
     - name: Add WineHQ repository
       become: true
-      become_user: "{{ ansible_user }}"
       ansible.builtin.get_url:
         url: "https://dl.winehq.org/wine-builds/{{ ansible_distribution | lower }}/dists/{{ ansible_distribution_release }}/winehq-{{ ansible_distribution_release }}.sources"
         dest: /etc/apt/sources.list.d/winehq-{{ ansible_distribution_release }}.sources
+        owner: "root"
+        group: "root"
+        mode: '0644'
+        timeout: 60
 
     - name: Check if i386 is enabled
-      #command because the ansible.builtin.dpkg_selections command does only support selection in Ansible.
-      ansible.builtin.command:
+      # shell because the ansible.builtin.dpkg_selections command does only support selection in Ansible. And command does not allow piping
+      ansible.builtin.shell:
         cmd: dpkg --print-foreign-architectures | grep i386
       register: result_i386_check
       changed_when: result_i386_check.rc == 1
-      failed_when: result_i386_check.rc < 1
+      failed_when: result_i386_check.rc > 1
+      when: ansible_architecture == "x86_64"
 
     - name: Enable i386 architecture
-      #command because the ansible.builtin.dpkg_selections command does only support selection in Ansible.
+      # command because the ansible.builtin.dpkg_selections command does only support selection in Ansible.
       ansible.builtin.command:
         cmd: dpkg --add-architecture i386
-      when: result_i386_check.rc == 1
+      register: add_architecture_output
+      changed_when: add_architecture_output.rc != 0
+      when: result_i386_check.rc != 0
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: result_i386_check.rc != 0 and ansible_os_family == "Debian"
 
     - name: Install WineHQ
       ansible.builtin.package:
@@ -47,6 +59,7 @@
       ansible.builtin.get_url:
         url: "http://winetricks.org/winetricks"
         dest: /usr/bin/winetricks
+        timeout: 60
         owner: "root"
         group: "root"
         mode: '0755'
