@@ -4,6 +4,14 @@
   tags:
     - winehq
   block:
+    - name: Create Keyrings dir on remote host if it does not exist
+      ansible.builtin.file:
+        path: "/etc/apt/keyrings"
+        state: directory
+        owner: "root"
+        group: "root"
+        mode: '0755'
+
     - name: Add WineHQ GPG repository key
       ansible.builtin.apt_key:
         url: "https://dl.winehq.org/wine-builds/winehq.key"
@@ -65,8 +73,8 @@
         mode: '0755'
       when: winehq.install_winetricks | bool
 
-    # as the user needs to accept licenses manually, this task is disabled
     # - name: Install Winetricks packages
+    # as the user needs to accept licenses manually, this task is disabled
     #   become: true
     #   become_user: "{{ ansible_user }}"
     #   ansible.builtin.command:
