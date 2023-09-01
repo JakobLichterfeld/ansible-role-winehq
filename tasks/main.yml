@@ -4,6 +4,12 @@
   tags:
     - winehq
   block:
+    - name: Install preparation packages
+      ansible.builtin.package:
+        name:
+          - gpg-agent
+        state: present
+
     - name: Create Keyrings dir on remote host if it does not exist
       ansible.builtin.file:
         path: "/etc/apt/keyrings"
