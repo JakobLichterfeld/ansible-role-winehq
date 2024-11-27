@@ -61,14 +61,14 @@
         name:
           - winehq-stable
         state: present
-      when: not use_staging | bool and not use_devel | bool and ansible_distribution_release | version_compare('24.04', '<')
+      when: not use_staging | bool and not use_devel | bool and ansible_distribution_release is version('24.04', '<')
 
     - name: Install WineHQ Staging
       ansible.builtin.package:
         name:
           - winehq-staging
         state: present
-      when: (use_staging | bool and not use_devel | bool) or ansible_distribution_release | version_compare('24.04', '>=')
+      when: (use_staging | bool and not use_devel | bool) or ansible_distribution_release is version('24.04', '>=')
 
     - name: Install WineHQ Devel
       ansible.builtin.package:
