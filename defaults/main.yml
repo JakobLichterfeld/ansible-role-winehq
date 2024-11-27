@@ -3,3 +3,5 @@
 winehq:
   install_playonlinux: true
   install_winetricks: true
+  use_devel: false
+  use_staging: false

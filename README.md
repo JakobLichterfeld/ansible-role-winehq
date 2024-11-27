@@ -8,7 +8,7 @@ Install WineHQ via PPA repository.
 - Add GPG repository key
 - Add WineHQ repository
 - Enable i386 support if needed
-- Install WineHQ
+- Install WineHQ (on Ubuntu 24.04 staging version is installed by default, as there are no packages for the stable version)
 - Install PlayOnLinux (optional)
 - Install Winetricks (optional)
 
@@ -24,6 +24,8 @@ Available variables are listed below, along with default values (see `defaults/m
 | -------------- | --------------- | -----------------------------------|
 | `winehq.install_playonlinux` | true | Whether to install PlayOnLinux |
 | `winehq.install_winetricks` | true | Whether to install Winetricks |
+| `winehq.use_devel` | false | Whether to use the devel version of WineHQ |
+| `winehq.use_staging` | false | Whether to use the staging version of WineHQ |
 
 ## Dependencies
 

@@ -56,11 +56,26 @@
         cache_valid_time: 0
       when: add_architecture_output and ansible_os_family == "Debian"
 
-    - name: Install WineHQ
+    - name: Install WineHQ Stable
       ansible.builtin.package:
         name:
           - winehq-stable
         state: present
+        when: not use_staging | bool and not use_devel | bool and ansible_distribution_release | version_compare('24.04', '<')
+
+    - name: Install WineHQ Staging
+      ansible.builtin.package:
+        name:
+          - winehq-staging
+        state: present
+      when: (use_staging | bool and not use_devel | bool) or ansible_distribution_release | version_compare('24.04', '>=')
+
+    - name: Install WineHQ Devel
+      ansible.builtin.package:
+        name:
+          - winehq-devel
+        state: present
+      when: use_devel | bool and not use_staging | bool
 
     - name: Install PlayOnLinux
       ansible.builtin.package:
