@@ -2,7 +2,7 @@
 galaxy_info:
     role_name: winehq
     namespace: jakoblichterfeld
-    standalone: true
+    # standalone: true
     author: JakobLichterfeld
     description: Install Wine / WineHQ via repository
 
