@@ -95,7 +95,7 @@
       when: winehq.install_winetricks | bool
 
     # - name: Install Winetricks packages
-    # as the user needs to accept licenses manually, this task is disabled
+    #   as the user needs to accept licenses manually, this task is disabled
     #   become: true
     #   become_user: "{{ ansible_user }}"
     #   ansible.builtin.command:
