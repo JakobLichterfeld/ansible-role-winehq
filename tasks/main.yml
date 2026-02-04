@@ -26,8 +26,8 @@
     - name: Add WineHQ repository
       become: true
       ansible.builtin.get_url:
-        url: "https://dl.winehq.org/wine-builds/{{ ansible_distribution | lower }}/dists/{{ ansible_distribution_release }}/winehq-{{ ansible_distribution_release }}.sources"
-        dest: /etc/apt/sources.list.d/winehq-{{ ansible_distribution_release }}.sources
+        url: "https://dl.winehq.org/wine-builds/{{ ansible_facts['distribution'] | lower }}/dists/{{ ansible_facts['distribution_release'] }}/winehq-{{ ansible_facts['distribution_release'] }}.sources"
+        dest: /etc/apt/sources.list.d/winehq-{{ ansible_facts['distribution_release'] }}.sources
         owner: "root"
         group: "root"
         mode: '0644'
@@ -40,7 +40,7 @@
       register: result_i386_check
       changed_when: result_i386_check.rc == 1
       failed_when: result_i386_check.rc > 1
-      when: ansible_architecture == "x86_64"
+      when: ansible_facts['architecture'] == "x86_64"
 
     - name: Enable i386 architecture
       # command because the ansible.builtin.dpkg_selections command does only support selection in Ansible.
@@ -54,21 +54,21 @@
       ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 0
-      when: add_architecture_output and ansible_os_family == "Debian"
+      when: add_architecture_output and ansible_facts['os_family'] == "Debian"
 
     - name: Install WineHQ Stable
       ansible.builtin.package:
         name:
           - winehq-stable
         state: present
-      when: not winehq.use_staging | bool and not winehq.use_devel | bool and ansible_distribution_major_version | int < 24
+      when: not winehq.use_staging | bool and not winehq.use_devel | bool and ansible_facts['distribution_major_version'] | int < 24
 
     - name: Install WineHQ Staging
       ansible.builtin.package:
         name:
           - winehq-staging
         state: present
-      when: (winehq.use_staging | bool and not winehq.use_devel | bool) or ansible_distribution_major_version | int >= 24
+      when: (winehq.use_staging | bool and not winehq.use_devel | bool) or ansible_facts['distribution_major_version'] | int >= 24
 
     - name: Install WineHQ Devel
       ansible.builtin.package:
@@ -97,7 +97,7 @@
     # - name: Install Winetricks packages
     #   as the user needs to accept licenses manually, this task is disabled
     #   become: true
-    #   become_user: "{{ ansible_user }}"
+    #   become_user: "{{ ansible_facts['user'] }}"
     #   ansible.builtin.command:
     #     cmd: "winetricks corefonts vcrun6 dotnet20"
     #   ignore_errors: true
